@@ -1,7 +1,6 @@
 {
   "name": "todolist",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +12,15 @@
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "nodemon": "^2.0.20"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dhruv4coding/todo-List.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dhruv4coding/todo-List/issues"
+  },
+  "homepage": "https://github.com/Dhruv4coding/todo-List#readme",
+  "description": ""
 }
