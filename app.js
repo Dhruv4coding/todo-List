@@ -48,5 +48,5 @@ app.get("/about" , (req , res) => {
 })
 
 app.listen(5000, () => {
-    console.log("server  running at 3000 port")
+    console.log("server  running at 5000 port")
 })
