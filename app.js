@@ -1,15 +1,15 @@
-const express = require("express");
+ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require('lodash')
-
+require('dotenv').config()
 mongoose.set('strictQuery', false);
 
 const date = require(__dirname + "/date.js")
 
 
 
-const app = express();
+ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
 
-mongoose.connect("mongodb+srv://Dhruv-admin:Dhruv123@cluster0.gtzmx2u.mongodb.net/todolistDB")
+mongoose.connect("mongodb+srv://Dhruv-admin:"+ process.env.MONGO_DB_PASS+ "@cluster0.gtzmx2u.mongodb.net/todolistDB")
 
 const itemsSchema = new mongoose.Schema({
     name: String
@@ -157,7 +157,7 @@ app.get("/:customListName", (req, res) => {
 app.get("/about", (req, res) => {
     res.render("about")
 })
-
 app.listen(5000, () => {
+  
     console.log("server running at 5000 port")
 })
