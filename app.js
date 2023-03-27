@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
 
-mongoose.connect("mongodb+srv://Dhruv-admin:"+ process.env.MONGO_DB_PASS+ "@cluster0.gtzmx2u.mongodb.net/todolistDB")
+await mongoose.connect("mongodb+srv://Dhruv-admin:"+ process.env.MONGO_DB_PASS+ "@cluster0.gtzmx2u.mongodb.net/todolistDB")
 
 const itemsSchema = new mongoose.Schema({
     name: String
@@ -46,9 +46,9 @@ const listSchema = {
 
 const List = mongoose.model("List", listSchema);
 
-app.get("/", (req, res) => {
+app.get("/", async(req, res) => {
 
-    Item.find({}, (err, foundItems) => {
+    await Item.find({}, (err, foundItems) => {
         if (err) {
             console.log(err);
         }
@@ -74,7 +74,7 @@ app.get("/", (req, res) => {
 
 })
 
-app.post("/", (req, res) => {
+app.post("/", async(req, res) => {
 
 
     const itemName = req.body.nextTask;
@@ -85,11 +85,11 @@ app.post("/", (req, res) => {
     })
 
     if (listName === "Today") {
-        item.save()
+        await item.save()
         res.redirect("/")
     }
     else{
-        List.findOne({name:listName} , (err , foundList) => {
+        await List.findOne({name:listName} , (err , foundList) => {
             foundList.items.push(item);
             foundList.save();
             res.redirect("/" + listName);
@@ -99,12 +99,12 @@ app.post("/", (req, res) => {
 
 })
 
-app.post("/delete", (req, res) => {
+app.post("/delete", async(req, res) => {
     const checkedItemId = req.body.checkbox;
     const listName = req.body.listName;
 
     if(listName === "Today"){
-        Item.findByIdAndRemove(checkedItemId, (err) => {
+        await Item.findByIdAndRemove(checkedItemId, (err) => {
             if (err) {
                 console.log(err);
             }
@@ -116,7 +116,7 @@ app.post("/delete", (req, res) => {
     }
 
     else{
-        List.findOneAndUpdate({name:listName} , {$pull:{items:{_id:checkedItemId}}} , (err , foundList)=>{
+        await List.findOneAndUpdate({name:listName} , {$pull:{items:{_id:checkedItemId}}} , (err , foundList)=>{
             if(!err){
                 res.redirect("/"+listName);
             }
@@ -127,9 +127,9 @@ app.post("/delete", (req, res) => {
 
 
 
-app.get("/:customListName", (req, res) => {
+app.get("/:customListName", async(req, res) => {
     const customListName = _.capitalize(req.params.customListName);
-    List.findOne({ name: customListName }, (err, foundList) => {
+    await List.findOne({ name: customListName }, (err, foundList) => {
         if (!err) {
             if (!foundList) {
                 //create a new list
